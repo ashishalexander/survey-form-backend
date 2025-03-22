@@ -9,7 +9,6 @@ router.post('/logout', adminAuthController.logout as RequestHandler);
 
 router.get('/check-auth', requireAdminAuth as RequestHandler, adminAuthController.checkAuth );
 
-// Add more protected admin routes here
 router.get('/surveys', requireAdminAuth as RequestHandler, adminAuthController.getSurveys as RequestHandler);
 router.get('/surveys/:id', requireAdminAuth as RequestHandler, adminAuthController.getSurveyById as RequestHandler);
 

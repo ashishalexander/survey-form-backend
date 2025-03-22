@@ -45,10 +45,9 @@ export const login = async (req: Request, res: Response,next:NextFunction) => {
 };
 
 export const logout = (_req: Request, res: Response) => {
-  // Clear the admin_token cookie
   res.clearCookie('admin_token', {
     ...COOKIE_OPTIONS,
-    maxAge: 0 // Expire immediately
+    maxAge: 0 
   });
   
   res.status(HttpStatusCodes.OK).json({
@@ -73,7 +72,6 @@ export const getSurveys = async (req: Request, res: Response, next: NextFunction
     
     const skip = (page - 1) * limit;
     
-    // Create search query
     const searchQuery = searchTerm ? {
       $or: [
         { name: { $regex: searchTerm, $options: 'i' } },
@@ -81,13 +79,11 @@ export const getSurveys = async (req: Request, res: Response, next: NextFunction
       ]
     } : {};
     
-    // Get surveys with pagination and search
     const surveys = await Survey.find(searchQuery)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
     
-    // Get total count for pagination
     const total = await Survey.countDocuments(searchQuery);
     
     res.status(HttpStatusCodes.OK).json({

@@ -5,13 +5,10 @@ import { HttpStatusCodes } from '../config/HttpStatusCodes';
 
 export const submitSurvey = async (req: Request, res: Response)  => {
   try {
-    // Check for spam (honeypot field)
     if (req.body.botField) {
-      // Silently reject bot submissions
       return res.status(200).json({ success: true, message: 'Form submitted successfully' });
     }
     
-    // Create new survey entry
     const survey = await Survey.create(req.body);
     
     res.status(HttpStatusCodes.CREATED).json({
