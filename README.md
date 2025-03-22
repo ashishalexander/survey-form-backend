@@ -80,7 +80,7 @@ server/
 
 3. Create a `.env` file in the root directory with the following variables:
    ```
-   MONGO_URI=mongodb+srv://ashishalex29:Ashishalex662600@cluster0.9bhb1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+   MONGO_URI
    PORT=5000
    ADMIN_EMAIL=admin@example.com
    ADMIN_PASSWORD=Admin123@
