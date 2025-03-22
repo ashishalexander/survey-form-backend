@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "ES6",                      // Set to ES6 or later for modern features
+      "module": "CommonJS",                  // Use CommonJS module system
+      "moduleResolution": "node",            // For resolving Node modules
+      "outDir": "./dist",                    // Output compiled files to `dist` folder
+      "rootDir": "./src",                    // Source files are in the `src` folder
+      "esModuleInterop": true,               // Allow ES module syntax
+      "strict": true,                        // Enable all strict type-checking options
+      "skipLibCheck": true                   // Skip checking types of declaration files
+    },
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }
+  
