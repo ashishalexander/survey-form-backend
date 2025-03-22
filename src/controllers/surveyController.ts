@@ -32,22 +32,3 @@ export const submitSurvey = async (req: Request, res: Response)  => {
     });
   }
 };
-
-
-export const getSurveys = async (_req: Request, res: Response) => {
-  try {
-    const surveys = await Survey.find().sort({ createdAt: -1 });
-    
-    res.status(HttpStatusCodes.OK).json({
-      success: true,
-      count: surveys.length,
-      data: surveys
-    });
-  } catch (error) {
-    console.error('Get surveys error:', error);
-    res.status(HttpStatusCodes.SERVER_ERROR).json({
-      success: false,
-      error: 'Server Error'
-    });
-  }
-};

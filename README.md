@@ -1,80 +1,76 @@
-# survey-form-backend# Survey Form Client Application
+# Survey Form Backend API
 
 ## Project Overview
 
-This is the frontend part of a MERN stack survey form application. It provides a user interface for submitting survey information and an admin dashboard to view submissions.
+This is the backend part of a MERN stack survey form application. It provides RESTful API endpoints for handling survey form submissions and admin authentication.
 
 ## Features
 
-- **User Survey Form**: Responsive form with fields for name, gender, nationality, email, phone number, address, and message
-- **Form Validation**: Comprehensive validation using React Hook Form and Zod
-- **Success Feedback**: Notification and success page after form submission
-- **Admin Authentication**: Secure JWT-based login system with protected routes
-- **Admin Dashboard**: View all survey submissions with detailed information
-- **Anti-Spam Protection**: Implemented honeypot technique to prevent spam submissions
-- **Responsive Design**: Works seamlessly across various device sizes
-
-## Live Demo
-
-- **Frontend Application**: [https://survey-form-client.vercel.app](https://survey-form-client.vercel.app)
-- **Admin Login**: [https://survey-form-client.vercel.app/admin/login](https://survey-form-client.vercel.app/admin/login)
+- **Survey Submission API**: Endpoint for storing survey form data
+- **Admin Authentication**: JWT-based authentication system with HTTP-only cookies
+- **Survey Data Management**: Endpoints for fetching and managing survey submissions
+- **MongoDB Integration**: Persistent data storage using MongoDB
+- **TypeScript Implementation**: Type-safe server-side codebase
 
 ## Tech Stack
 
-- React 19.0.0
+- Node.js
+- Express 4.21.2
 - TypeScript
-- Vite
-- React Router Dom 7.3.0
-- React Hook Form 7.54.2 with Zod validation
-- Tailwind CSS
-- Axios for API calls
-- Sonner for notifications
-- shadcn/ui components
+- MongoDB with Mongoose 8.12.1
+- JWT Authentication
+- Cookie-parser
+- CORS
 
 ## Project Structure
 
 ```
-client-side/
+server/
 ├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── ui/              # shadcn/ui components
-│   │   ├── FormField.tsx    # Reusable form field component
-│   │   ├── FormSelect.tsx   # Reusable select component
-│   │   └── FormTextarea.tsx # Reusable textarea component
-│   ├── lib/                 # Utility functions
-│   ├── pages/               # Application pages
-│   │   ├── AdminDashboard.tsx
-│   │   ├── AdminLoginPage.tsx
-│   │   ├── FormPage.tsx
-│   │   └── SuccessPage.tsx
-│   ├── routes/              # Application routing
-│   │   └── AppRoutes.tsx    # Route configuration
-│   ├── schemas/             # Zod validation schemas
-│   │   ├── adminLoginSchema.ts
-│   │   └── formSchema.ts
-│   ├── services/            # API service functions
-│   │   ├── adminAuthService.ts
-│   │   ├── dashboardService.ts
-│   │   └── formService.ts
-│   ├── types/               # TypeScript type definitions
-│   ├── utils/               # Helper utilities
-│   │   └── axiosConfig.ts   # Axios instance configuration
-│   ├── App.tsx              # Main application component
-│   └── main.tsx             # Application entry point
+│   ├── config/              # Configuration files
+│   │   ├── CookieConfig.ts
+│   │   ├── HttpStatusCodes.ts
+│   │   └── Roles.ts
+│   ├── controllers/         # Request handlers
+│   │   ├── adminController.ts
+│   │   └── surveyController.ts
+│   ├── middlewares/         # Express middlewares
+│   │   ├── adminAuthMiddleware.ts
+│   │   └── errorMiddleware.ts
+│   ├── models/              # MongoDB schemas
+│   │   └── Survey.ts
+│   ├── routes/              # API routes
+│   │   ├── adminRoutes.ts
+│   │   └── surveyRoutes.ts
+│   ├── app.ts               # Express app configuration
+│   └── server.ts            # Server entry point
+├── .env                     # Environment variables
+└── tsconfig.json            # TypeScript configuration
 ```
+
+## API Endpoints
+
+### Survey Endpoints
+- `POST /api/surveys` - Submit a new survey
+
+### Admin Endpoints
+- `POST /api/admin/login` - Admin login
+- `GET /api/admin/logout` - Admin logout
+- `GET /api/admin/check-auth` - Verify admin authentication
+- `GET /api/admin/surveys` - get survey data
 
 ## Installation and Setup
 
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm or yarn
-- Backend API running
+- MongoDB connection string
 
 ### Setup
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/survey-form-client.git
-   cd survey-form-client
+   git clone https://github.com/ashishalexander/survey-form-backend
+   cd survey-form-backend
    ```
 
 2. Install dependencies
@@ -84,7 +80,10 @@ client-side/
 
 3. Create a `.env` file in the root directory with the following variables:
    ```
-   VITE_API_URL=http://localhost:5000/api
+   MONGO_URI=mongodb+srv://ashishalex29:Ashishalex662600@cluster0.9bhb1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+   PORT=5000
+   ADMIN_EMAIL=admin@example.com
+   ADMIN_PASSWORD=Admin123@
    ```
 
 4. Start the development server
@@ -92,7 +91,7 @@ client-side/
    npm run dev
    ```
 
-5. The application will be available at `http://localhost:5173`
+5. The API will be available at `http://localhost:5000/api`
 
 ## Build for Production
 
@@ -102,30 +101,34 @@ npm run build
 
 ## Deployment
 
-The frontend is deployed on Vercel:
-1. Connect your GitHub repository to Vercel
-2. Configure the environment variables (VITE_API_URL pointing to your deployed backend)
-3. Deploy the application
+The backend is deployed on Render:
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Set the build command to `npm install && npm run build`
+4. Set the start command to `npm start`
+5. Configure environment variables (MONGO_URI, PORT, ADMIN_EMAIL, ADMIN_PASSWORD)
 
-## Admin Access
+## Development Approach
 
-To access the admin dashboard:
-1. Navigate to `/admin/login`
-2. Use the following credentials:
-   - Email: admin@example.com
-   - Password: Admin123@
+The backend follows a simplified MVC architecture without a separate service layer:
+- Routes define the API endpoints
+- Controllers handle the HTTP requests/responses and business logic
+- Models define the database schemas
 
-## Challenges and Solutions
+This approach was chosen to simplify development and avoid unnecessary complexity for a small-scale application.
 
-- **Tailwind and shadcn/ui Compatibility**: Resolved version conflicts by downgrading Tailwind to match the version required by shadcn/ui components
-- **JWT Authentication**: Implemented secure authentication with HTTP-only cookies for enhanced security
-- **Form Validation**: Created a robust validation system using React Hook Form and Zod for better user experience
+## Security Features
+
+- JWT authentication for admin access
+- HTTP-only cookies for storing access tokens
+- Middleware for protected routes
+- Environment variables for sensitive information
 
 ## Related Repositories
 
 This project is part of a MERN stack application:
-- Frontend (current repository): Survey form client application
-- Backend: [survey-form-backend](https://github.com/ashishalexander/survey-form-backend) - API server for storing and retrieving survey data
+- Backend (current repository): API server for the survey form application
+- Frontend: [survey-form-client](https://github.com/ashishalexander/survey-form-client) - User interface for collecting survey data
 
 ## License
 
