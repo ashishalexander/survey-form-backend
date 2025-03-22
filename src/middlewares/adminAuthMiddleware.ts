@@ -18,6 +18,7 @@ export const requireAdminAuth = (req: Request, res: Response, next: NextFunction
   try {
     // Get token from cookies
     const token = req.cookies.admin_token;
+    console.log(token)
     
     // Check if token exists
     if (!token) {
